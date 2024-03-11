@@ -1,37 +1,44 @@
 import { useState, useEffect } from "react";
 
-function Formulario({ pacientes, setPacientes}) { // Pasamos las props
-  const [nombre, setNombre] = useState('');
-  const [propietario, setPropietario] = useState('');
-  const [email, setEmail] = useState('');
-  const [fecha, setFecha] = useState('');
-  const [sintomas, setSintomas] = useState('');
+function Formulario({ pacientes, setPacientes }) {
+  // Pasamos las props
+  const [nombre, setNombre] = useState("");
+  const [propietario, setPropietario] = useState("");
+  const [email, setEmail] = useState("");
+  const [fecha, setFecha] = useState("");
+  const [sintomas, setSintomas] = useState("");
 
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(false); // Alerta error
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if ([nombre, propietario, email, fecha, sintomas].includes('')) {
-
+    if ([nombre, propietario, email, fecha, sintomas].includes("")) {
       setError(true);
-      return
+      return;
     }
 
     setError(false);
 
-    // Objeto de Paciente 
-    const objetoPaciente= {
+    // Objeto de Paciente
+    const objetoPaciente = {
       nombre,
       propietario,
       email,
       fecha,
-      sintomas
-    }
+      sintomas,
+    };
 
     console.log(objetoPaciente);
 
-    setPacientes([...pacientes, objetoPaciente])
-  }
+    setPacientes([...pacientes, objetoPaciente]);
+
+    // Reiniciar el state del formulario
+    setNombre("");
+    setPropietario("");
+    setEmail("");
+    setFecha("");
+    setSintomas("");
+  };
 
   return (
     <div className="md:w-1/2 lg:w-2/5">
@@ -42,12 +49,11 @@ function Formulario({ pacientes, setPacientes}) { // Pasamos las props
         <span className="text-indigo-600 font-bold">Administralos</span>
       </p>
 
-      <form onSubmit={ handleSubmit } className="bg-white shadow-md rounded-lg p-5 my-10 mx-5" action="">
-        {error && (
-          <div className="bg-red-800 font-bold text-white text-center p-3 my-3 rpunded-md uppercase">
-            <p>Todos los campos son obligatorios</p>
-          </div>
-          )}
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded-lg p-5 my-10 mx-5"
+        action=""
+      >
         <div className="mt-5">
           <label
             htmlFor="mascota"
@@ -61,7 +67,7 @@ function Formulario({ pacientes, setPacientes}) { // Pasamos las props
             placeholder="Nombre de la Mascota"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
             value={nombre}
-            onChange={ (e) => setNombre(e.target.value) }
+            onChange={(e) => setNombre(e.target.value)}
           />
         </div>
         <div className="mt-5">
@@ -77,7 +83,7 @@ function Formulario({ pacientes, setPacientes}) { // Pasamos las props
             placeholder="Nombre del Propietario"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
             value={propietario}
-            onChange={ (e) => setPropietario(e.target.value) }
+            onChange={(e) => setPropietario(e.target.value)}
           />
         </div>
         <div className="mt-5">
@@ -93,7 +99,7 @@ function Formulario({ pacientes, setPacientes}) { // Pasamos las props
             placeholder="Email Contacto Propietario"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
             value={email}
-            onChange={ (e) => setEmail(e.target.value) }
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="mt-5">
@@ -108,7 +114,7 @@ function Formulario({ pacientes, setPacientes}) { // Pasamos las props
             id="alta"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
             value={fecha}
-            onChange={ (e) => setFecha(e.target.value) }
+            onChange={(e) => setFecha(e.target.value)}
           />
         </div>
         <div className="mt-5">
@@ -123,7 +129,7 @@ function Formulario({ pacientes, setPacientes}) { // Pasamos las props
             id="sintomas"
             className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
             value={sintomas}
-            onChange={ (e) => setSintomas(e.target.value) }
+            onChange={(e) => setSintomas(e.target.value)}
           />
         </div>
         <input
@@ -131,6 +137,12 @@ function Formulario({ pacientes, setPacientes}) { // Pasamos las props
           className="bg-indigo-600 w-full p-3 mt-2 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
           value="Agregar paciente"
         />
+        {/* Alerta error */}
+        {error && (
+          <div className="bg-red-800 font-bold text-white text-center p-3 my-3 rpunded-md uppercase">
+            <p>Todos los campos son obligatorios</p>
+          </div>
+        )}
       </form>
     </div>
   );

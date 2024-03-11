@@ -4,8 +4,7 @@ import Header from "./components/Header";
 import ListadoPacientes from "./components/ListadoPacientes";
 
 function App() {
-  const [pacientes, setPacientes] = useState([]);
-
+  const [pacientes, setPacientes] = useState([]); // [] Para ir guardando los datos de los campos
 
   return (
     <div className="container mx-auto mt-10">
