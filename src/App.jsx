@@ -4,7 +4,8 @@ import Header from "./components/Header";
 import ListadoPacientes from "./components/ListadoPacientes";
 
 function App() {
-  const [pacientes, setPacientes] = useState([]); // [] Para ir guardando los datos de los campos
+  const [pacientes, setPacientes] = useState([]); // [] Para los pacientes
+  const [paciente, setPaciente] = useState({}); // {} Para el paciente
 
   return (
     <div className="container mx-auto mt-10">
@@ -13,9 +14,11 @@ function App() {
         <Formulario
         pacientes={pacientes}
         setPacientes={setPacientes} // Prop
+        paciente={paciente} // Objeto de paciente
         />
         <ListadoPacientes
         pacientes={pacientes}
+        setPaciente={setPaciente}
         />
       </div>
     </div>

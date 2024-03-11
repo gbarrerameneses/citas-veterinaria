@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Error from "./Error";
 
-function Formulario({ pacientes, setPacientes }) {
+function Formulario({ pacientes, setPacientes, paciente }) {
   // Pasamos las props
   const [nombre, setNombre] = useState("");
   const [propietario, setPropietario] = useState("");
@@ -11,16 +11,32 @@ function Formulario({ pacientes, setPacientes }) {
 
   const [error, setError] = useState(false); // Alerta error
 
-  const generarId = (()=>{ // Arrow Function para generar un Id único
-    const random = Math.random().toString(36).substring(2);
-    const fecha = Date.now().toString(36)
+  useEffect(() => {
+    if (Object.keys(paciente).length > 0) {
+      setNombre(paciente.nombre);
+      setPropietario(paciente.propietario);
+      setEmail(paciente.email);
+      setFecha(paciente.fecha);
+      setSintomas(paciente.sintomas);
+    }
+  }, [paciente]);
 
-    return random + fecha
-  })
+  // useEffect(() => {
+  //   console.log('El componente está listo!');
+  // },[])
+
+  const generarId = () => {
+    // Arrow Function para generar un Id único
+    const random = Math.random().toString(36).substring(2);
+    const fecha = Date.now().toString(36);
+
+    return random + fecha;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if ([nombre, propietario, email, fecha, sintomas].includes("")) { //Validación
+    if ([nombre, propietario, email, fecha, sintomas].includes("")) {
+      //Validación
       setError(true);
       return;
     }
@@ -34,7 +50,7 @@ function Formulario({ pacientes, setPacientes }) {
       email,
       fecha,
       sintomas,
-      id: generarId()
+      id: generarId(),
     };
 
     console.log(objetoPaciente);
@@ -144,10 +160,10 @@ function Formulario({ pacientes, setPacientes }) {
         <input
           type="submit"
           className="bg-indigo-600 w-full p-3 mt-2 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
-          value="Agregar paciente"
+          value={ paciente.id ? 'Editar paciente' : 'Agregar paciente'}
         />
         {/* Alerta error */}
-        {error && <Error mensaje = {'Todos los campos son obligatorios'} /> }
+        {error && <Error mensaje={"Todos los campos son obligatorios"} />}
       </form>
     </div>
   );
