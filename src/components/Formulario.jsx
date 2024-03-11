@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Error from "./Error";
 
 function Formulario({ pacientes, setPacientes }) {
   // Pasamos las props
@@ -12,7 +13,7 @@ function Formulario({ pacientes, setPacientes }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if ([nombre, propietario, email, fecha, sintomas].includes("")) {
+    if ([nombre, propietario, email, fecha, sintomas].includes("")) { //Validación
       setError(true);
       return;
     }
@@ -138,11 +139,7 @@ function Formulario({ pacientes, setPacientes }) {
           value="Agregar paciente"
         />
         {/* Alerta error */}
-        {error && (
-          <div className="bg-red-800 font-bold text-white text-center p-3 my-3 rpunded-md uppercase">
-            <p>Todos los campos son obligatorios</p>
-          </div>
-        )}
+        {error && <Error mensaje = {'Todos los campos son obligatorios'} /> }
       </form>
     </div>
   );
