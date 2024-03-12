@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import Error from "./Error";
 
-function Formulario({ pacientes, setPacientes, paciente }) {
-  // Pasamos las props
+function Formulario({ pacientes, setPacientes, paciente, setPaciente }) { // Pasamos las props
   const [nombre, setNombre] = useState("");
   const [propietario, setPropietario] = useState("");
   const [email, setEmail] = useState("");
@@ -25,8 +24,7 @@ function Formulario({ pacientes, setPacientes, paciente }) {
   //   console.log('El componente está listo!');
   // },[])
 
-  const generarId = () => {
-    // Arrow Function para generar un Id único
+  const generarId = () => { // Arrow Function para generar un Id único
     const random = Math.random().toString(36).substring(2);
     const fecha = Date.now().toString(36);
 
@@ -35,8 +33,7 @@ function Formulario({ pacientes, setPacientes, paciente }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if ([nombre, propietario, email, fecha, sintomas].includes("")) {
-      //Validación
+    if ([nombre, propietario, email, fecha, sintomas].includes("")) {  //Validación formulario vacío
       setError(true);
       return;
     }
@@ -49,13 +46,31 @@ function Formulario({ pacientes, setPacientes, paciente }) {
       propietario,
       email,
       fecha,
-      sintomas,
-      id: generarId(),
+      sintomas
     };
 
-    console.log(objetoPaciente);
+    if (paciente.id) {
+      // Editando registro
+      objetoPaciente.id = paciente.id
 
-    setPacientes([...pacientes, objetoPaciente]);
+      const pacientesActualizados = pacientes
+      .map(
+        pacienteState =>
+        pacienteState.id === paciente.id ? objetoPaciente : pacienteState
+        )
+
+        setPacientes(pacientesActualizados)
+        setPaciente({})
+
+    } else {
+      // console.log('Nuevo registro');
+      // Nuevo registro
+      objetoPaciente.id = generarId();
+      setPacientes([...pacientes, objetoPaciente]);
+      console.log('Nuevo registro');
+    }
+
+    // console.log(objetoPaciente);
 
     // Reiniciar el state del formulario
     setNombre("");
